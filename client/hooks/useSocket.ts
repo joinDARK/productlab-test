@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { socket } from "../shared/lib/socket";
 
 export type SocketStatus =
