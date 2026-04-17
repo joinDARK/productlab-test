@@ -1,31 +1,200 @@
+:root {
+    --bg-page: #0a0a0a;
+    --bg-message: #1c1c1c;
+    --text-primary: #ffffff;
+    --text-secondary: #a0a0a0;
+    --accent: #4a9eff;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 2rem;
+    --radius-sm: 0.3rem;
+    --radius-md: 1rem;
+    --font-mono: "Courier New", Courier, monospace;
+}
+
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
     text-decoration: none;
-    font-family: monospace;
+    font-family: var(--font-mono);
+}
+
+body {
+    background-color: var(--bg-page);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.main {
+    height: 100svh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0 var(--spacing-md);
+}
+
+.message-history {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-bottom: var(--spacing-lg);
+    position: relative;
+}
+
+.message-history__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: var(--spacing-md);
+    font-size: 1.5rem;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    position: sticky;
+    top: 0;
+    background-color: var(--bg-page);
+    z-index: 10;
+    padding: var(--spacing-md) 0;
+    padding-right: var(--spacing-md);
 }
 
 .message-bg {
-    width: 100%;
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    padding: 0 var(--spacing-sm);
+}
+
+.message {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 1rem;
-}
-
-.message__text {
-    font-size: 1.3rem;
-    padding: 8px 1.3rem;
-    border-radius: 1rem;
-    background-color: #1c1c1c;
-    color: white;
+    max-width: 85%;
+    animation: fadeIn 0.3s ease forwards;
 }
 
 .message__author {
     font-weight: 600;
-    font-size: 1.2rem;
+    font-size: 0.95rem;
+    color: var(--accent);
+    margin-bottom: var(--spacing-sm);
+}
+
+.message__text {
+    font-size: 1.1rem;
+    padding: 0.75rem 1.2rem;
+    border-radius: var(--radius-md) var(--radius-md) var(--radius-md)
+        var(--radius-sm);
+    background-color: var(--bg-message);
+    color: var(--text-primary);
+    line-height: 1.5;
+    word-break: break-word;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.message__text:hover {
+    transform: translateX(2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.message-history {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.server-status {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--text-secondary);
+}
+
+.server-status__indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--text-secondary);
+    transition:
+        background-color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.server-status--connected .server-status__indicator {
+    background-color: #22c55e;
+    box-shadow: 0 0 8px rgba(34, 197, 94, 0.6);
+}
+
+.server-status--connecting .server-status__indicator {
+    background-color: #f59e0b;
+    animation: pulse-status 1.5s infinite;
+}
+
+.server-status--disconnected .server-status__indicator {
+    background-color: #6b7280;
+}
+
+.server-status--error .server-status__indicator {
+    background-color: #ef4444;
+    box-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
+}
+
+@keyframes pulse-status {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.5;
+        transform: scale(1.2);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@media (max-width: 768px) {
+    .message-history__header {
+        font-size: 1.25rem;
+        padding-bottom: var(--spacing-sm);
+    }
+
+    .message-bg {
+        padding: 0;
+    }
+
+    .message {
+        max-width: 92%;
+    }
+
+    .message__text {
+        font-size: 1rem;
+        padding: 0.65rem 1rem;
+    }
 }
